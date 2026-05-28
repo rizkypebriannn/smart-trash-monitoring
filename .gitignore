@@ -1,0 +1,9 @@
+db.php
+.env
+debug_input.txt
+log_mqtt.txt
+log_sampah.txt
+vendor/
+node_modules/
+.DS_Store
+Thumbs.db
