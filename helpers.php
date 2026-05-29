@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('Asia/Jakarta');
+
 // ================= STATUS TEXT =================
 // Menentukan status berdasarkan nilai kapasitas angka
 function getStatusText($kapasitas) {
@@ -60,7 +62,7 @@ function getNotificationText($kapasitas_nonlogam, $kapasitas_logam) {
 
 
 // ================= NOTIFICATION STYLE =================
-// Optional: jika nanti dipakai untuk memberi warna notifikasi
+// Menentukan warna notifikasi dashboard
 function getNotificationStyle($kapasitas_nonlogam, $kapasitas_logam) {
 
     $kapasitas_nonlogam = (int) $kapasitas_nonlogam;
@@ -79,14 +81,21 @@ function getNotificationStyle($kapasitas_nonlogam, $kapasitas_logam) {
 
 
 // ================= FORMAT WAKTU =================
-// Format waktu dari Supabase ke WIB/local display
+// Format waktu dari Supabase UTC ke WIB / Asia Jakarta
 function formatWaktu($timestamp) {
 
     if (empty($timestamp) || $timestamp === 'Belum ada data') {
         return "-";
     }
 
-    return date('d/m/Y H:i:s', strtotime($timestamp));
+    try {
+        $date = new DateTime($timestamp);
+        $date->setTimezone(new DateTimeZone('Asia/Jakarta'));
+
+        return $date->format('d/m/Y H:i:s');
+    } catch (Exception $e) {
+        return "-";
+    }
 }
 
 ?>
